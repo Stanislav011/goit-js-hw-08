@@ -81,6 +81,7 @@ const galleryMarkup = images.map(({ preview, original, description }) => `
 galleryContainer.innerHTML = galleryMarkup;
 
 
+
 galleryContainer.addEventListener('click', event => {
   event.preventDefault();
   const isGalleryImage = event.target.classList.contains('gallery-image');
@@ -89,5 +90,15 @@ galleryContainer.addEventListener('click', event => {
   const instance = basicLightbox.create(`
     <img src="${event.target.dataset.source}" alt="${event.target.alt}">
   `);
+
   instance.show();
+
+  const closeOnEscape = event => {
+    if (event.key === 'Escape') {
+      instance.close();
+      document.removeEventListener('keydown', closeOnEscape); 
+    }
+  };
+
+  document.addEventListener('keydown', closeOnEscape);
 });
